@@ -1,6 +1,6 @@
 name: My App
 targets:
-  GitHub App:
+  My App:
     type: application
     platform: iOS
     deploymentTarget: "14.0"
