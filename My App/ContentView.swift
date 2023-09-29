@@ -1,12 +1,20 @@
 import SwiftUI
 
 struct ContentView: View {
-  @State var Images: [UIImage] = GetImages()
+  @State var Images: [UIImage] = []
   @State var CurrentImage = UIImage()
   var body: some View {
     Image(uiImage: CurrentImage)
     .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
-      CurrentImage = Images.randomElement()
+      if let CurrentImage = Images.randomElement() {
+        CurrentImage = CurrentImage
+      }
+    }
+    .onAppear {
+      Images = GetImages()
+      if let CurrentImage = Images.randomElement() {
+        CurrentImage = CurrentImage
+      }
     }
   }
 }
