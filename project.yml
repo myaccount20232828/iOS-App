@@ -1,4 +1,4 @@
-name: GitHub App
+name: My App
 targets:
   GitHub App:
     type: application
@@ -8,7 +8,6 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: Resources/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: com.AppInstalleriOS.GitHub-App
-        #PRODUCT_NAME: GitHub App test
+        PRODUCT_BUNDLE_IDENTIFIER: com.AppInstalleriOS.My-App
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 1.0
