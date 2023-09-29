@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct ContentView: View {
+  @State var Images: [UIImage] = GetImages()
+  @State var CurrentImage = UIImage()
   var body: some View {
-    ForEach(GetImages(), id: \.self) { CurrentImage in
-      Image(uiImage: CurrentImage)
+    Image(uiImage: CurrentImage)
+    .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
+      CurrentImage = Images.randomElement()
     }
   }
 }
