@@ -1,7 +1,6 @@
 name: Build App
 on:
   push:
-    branches: ["main"]    
 jobs:
   build:
     runs-on: macos-latest
@@ -12,11 +11,21 @@ jobs:
      - name: Generate XCProject
        run: xcodegen generate
      - name: Build App
-       run: bash build.sh
-     - name: Upload IPA
-       uses: actions/upload-artifact@v3
-       with:
-        name: App
-        path: "*.ipa"
-     - name: FTP Upload
-       run: curl --netrc --upload-file *.ipa ftp://${{secrets.HOST}}/public_html/ --user ${{secrets.USER}}:${{secrets.PASSWORD}}
+       run: |
+            Scheme="My App"
+            XCProject="My App.xcodeproj"
+            xcodebuild -jobs $(sysctl -n hw.ncpu) -project "$XCProject" -scheme "$Scheme" -configuration Release -arch arm64 -sdk iphoneos -derivedDataPath "$TMPDIR/App" CODE_SIGNING_ALLOWED=NO DSTROOT=$AppTMP/install ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES=NO 
+            echo $?
+            mkdir Payload
+            mv "$(echo $TMPDIR/App/Build/Products/Release-iphoneos/*.app)" Payload
+            zip -r9 "$Scheme.ipa" Payload
+            rm -rf Payload && rm -rf "$TMPDIR/App"
+     - name: Git Push
+       run: |
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            for IPA in *.ipa; do
+            git add "$IPA"
+            done
+            git commit -m "Built App"
+            git push
