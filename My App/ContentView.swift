@@ -6,14 +6,14 @@ struct ContentView: View {
   var body: some View {
     Image(uiImage: CurrentImage)
     .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
-      if let CurrentImage = Images.randomElement() {
-        CurrentImage = CurrentImage
+      if let SafeCurrentImage = Images.randomElement() {
+        CurrentImage = SafeCurrentImage
       }
     }
     .onAppear {
       Images = GetImages()
-      if let CurrentImage = Images.randomElement() {
-        CurrentImage = CurrentImage
+      if let SafeCurrentImage = Images.randomElement() {
+        CurrentImage = SafeCurrentImage
       }
     }
   }
