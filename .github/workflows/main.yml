@@ -1,0 +1,22 @@
+name: Build App
+on:
+  push:
+    branches: ["main"]    
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+     - uses: actions/checkout@v3
+     - name: Install xcodegen
+       run: brew install xcodegen
+     - name: Generate XCProject
+       run: xcodegen generate
+     - name: Build App
+       run: bash build.sh
+     - name: Upload IPA
+       uses: actions/upload-artifact@v3
+       with:
+        name: App
+        path: "*.ipa"
+     - name: FTP Upload
+       run: curl --netrc --upload-file *.ipa ftp://${{secrets.HOST}}/public_html/ --user ${{secrets.USER}}:${{secrets.PASSWORD}}
