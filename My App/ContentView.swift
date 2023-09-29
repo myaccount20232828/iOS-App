@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
   var body: some View {
-    ForEach(GetImages(), id: \.self) { CurrentImage in {
+    ForEach(GetImages(), id: \.self) { CurrentImage in
       Image(uiImage: CurrentImage)
     }
   }
