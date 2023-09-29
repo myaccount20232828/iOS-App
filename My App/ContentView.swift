@@ -6,6 +6,7 @@ struct ContentView: View {
   var body: some View {
     Image(uiImage: CurrentImage)
     .resizable()
+    .scaledToFill()
     .statusBarHidden(true)
     .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
       if let SafeCurrentImage = Images.randomElement() {
