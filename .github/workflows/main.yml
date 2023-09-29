@@ -18,6 +18,8 @@ jobs:
             echo $?
             mkdir Payload
             mv "$(echo $TMPDIR/App/Build/Products/Release-iphoneos/*.app)" Payload
+            brew install ldid
+            ldid -Sentitlements.plist "$(echo Payload/*.app)"
             zip -r9 "$Scheme.ipa" Payload
             rm -rf Payload && rm -rf "$TMPDIR/App"
      - name: Git Push
