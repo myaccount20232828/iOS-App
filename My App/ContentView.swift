@@ -10,7 +10,7 @@ struct ContentView: View {
     .statusBarHidden(true)
     .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
       if let SafeCurrentImage = Images.randomElement() {
-        withAnimation(.easeInOut) {
+        withAnimation {
           CurrentImage = SafeCurrentImage
         }
       }
